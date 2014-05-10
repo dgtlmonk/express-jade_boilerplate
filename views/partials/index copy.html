@@ -1,0 +1,63 @@
+<div id="statusText">
+
+</div>
+
+<script type="text/javascript" charset="utf-8">
+  //   console.log('test');
+
+    var xhr = new XMLHttpRequest();
+    var scb_url = "https://smart-creative-brief.googleplex.com/creative/53/";
+
+    
+    // Create the XHR object.
+    function createCORSRequest(method, url) {
+        var xhr = new XMLHttpRequest();
+        if ("withCredentials" in xhr) {
+        // XHR for Chrome/Firefox/Opera/Safari.
+            xhr.open(method, url);
+        } else if (typeof XDomainRequest != "undefined") {
+            // XDomainRequest for IE.
+            xhr = new XDomainRequest();
+            xhr.open(method, url);
+        } else {
+            // CORS not supported.
+            xhr = null;
+        }
+        return xhr;
+    }
+    
+
+    var xhr = createCORSRequest('GET',scb_url);
+        xhr.setRequestHeader('Content-Type','text/plain; charset=utf-8');
+        xhr.setRequestHeader('Access-Control-Allow-Origin','*');
+        xhr.setRequestHeader('Access-Control-Allow-Methods','POST, GET, PUT, DELETE, OPTIONS');
+        xhr.setRequestHeader('Access-Control-Allow-Headers','X-Requested-With, Access-Control-Allow-Origin, X-HTTP-Method-Override, Content-Type, Authorization, Accept');
+        xhr.setRequestHeader('Access-Control-Allow-Credentials','true');
+        // xhr.send();
+
+
+       var jqXHR = $.ajax({
+            url: scb_url,
+            jsonpCallback:function( html ){
+                console.log('-- jsonpCallback --- ');
+                console.log(html);
+
+            },
+          
+          contentType:'text/html',
+            dataType:'jsonp',
+        })
+        .done(function(data){
+            console.log('success');
+            console.log(data);
+        })
+        .fail(function(data, textStatus){
+           console.log(textStatus);
+           console.log('something went wrong ...');
+        })
+        .always(function(data, responseText ){
+            console.log('-- always ---');
+            console.log(jqXHR.responseText);
+    });
+
+</script>
